@@ -1,3 +1,5 @@
+# Modified from original by CJO
+#
 # The west manifest file (west.yml) for the nRF Connect SDK (NCS).
 #
 # The per-workspace west configuration file, ncs/.west/config,
@@ -18,6 +20,8 @@ manifest:
   remotes:
     - name: zephyr-sdk
       url-base: https://github.com/cladoc
+    # nRF Connect SDK GitHub organization.
+    # NCS repositories are hosted here.
     - name: ncs
       url-base: https://github.com/nrfconnect
       # Third-party repository sources:
@@ -33,26 +37,13 @@ manifest:
       url-base: https://projecttools.nordicsemi.no/bitbucket/scm/drgn
     - name: memfault
       url-base: https://github.com/memfault
-    - name: ant-nrfconnect
-      url-base: https://github.com/ant-nrfconnect
-    - name: babblesim
-      url-base: https://github.com/BabbleSim
-    - name: bosch
-      url-base: https://github.com/boschsensortec
-  defaults:
-    remote: ncs
-  # nRF Connect SDK GitHub organization.
-    # NCS repositories are hosted here.
-    # - name: ncs
-    #   url-base: https://github.com/nrfconnect
-    
 
   # If not otherwise specified, the projects below should be obtained
   # from the ncs remote.
-  # defaults:
-  #   remote: ncs
-
-  group-filter: [-homekit, -nrf-802154, -dragoon, -find-my, -ant, -babblesim, -sidewalk, -bsec]
+  defaults:
+    remote: ncs
+  
+  # group-filter: []
 
   # "projects" is a list of git repositories which make up the NCS
   # source code.
@@ -154,12 +145,6 @@ manifest:
       repo-path: sdk-trusted-firmware-m
       path: modules/tee/tf-m/trusted-firmware-m
       revision: v1.8.0-ncs1
-    # - name: nrf-802154
-    #   repo-path: sdk-nrf-802154
-    #   path: nrf-802154
-    #   revision: v2.5.0
-    #   groups:
-    #     - nrf-802154
     - name: cjson
       repo-path: sdk-cjson
       path: modules/lib/cjson
@@ -169,22 +154,6 @@ manifest:
           upstream-url: https://github.com/DaveGamble/cJSON
           upstream-sha: d2735278ed1c2e4556f53a7a782063b31331dbf7
           compare-by-default: false
-    # - name: sidewalk
-    #   repo-path: sdk-sidewalk
-    #   revision: 9a2e912e703625f11b73889678bfdf1792f3c266
-    #   submodules: true
-    #   groups:
-    #     - sidewalk
-    # - name: homekit
-    #   repo-path: sdk-homekit
-    #   revision: v2.5.0
-    #   groups:
-    #     - homekit
-    # - name: find-my
-    #   repo-path: sdk-find-my
-    #   revision: v2.5.0
-    #   groups:
-    #     - find-my
     - name: azure-sdk-for-c
       repo-path: azure-sdk-for-c
       path: modules/lib/azure-sdk-for-c
@@ -223,27 +192,6 @@ manifest:
       path: modules/lib/memfault-firmware-sdk
       revision: 1.3.3
       remote: memfault
-    # - name: bsim
-    #   repo-path: bsim_west
-    #   remote: babblesim
-    #   revision: 384a091445c57b44ac8cbd18ebd245b47c71db94
-    #   import:
-    #     path-prefix: tools
-    # - name: bme68x
-    #   repo-path: Bosch-BME68x-Library
-    #   remote: bosch
-    #   path: modules/lib/bme68x
-    #   revision: v1.1.40407
-    #   groups:
-    #     - bsec
-    # - name: bsec
-    #   repo-path: Bosch-BSEC2-Library
-    #   remote: bosch
-    #   path: modules/lib/bsec
-    #   revision: v1.5.2400
-    #   groups:
-    #     - bsec
-
 
   # West-related configuration for the nrf repository.
   self:
