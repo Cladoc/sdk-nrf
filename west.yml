@@ -16,13 +16,11 @@ manifest:
   # "remotes" is a list of locations where git repositories are cloned
   # and fetched from.
   remotes:
-    # nRF Connect SDK GitHub organization.
-    # NCS repositories are hosted here.
-    - name: zephyr
+    - name: zephyr-sdk
       url-base: https://github.com/cladoc
     - name: ncs
       url-base: https://github.com/nrfconnect
-    # Third-party repository sources:
+      # Third-party repository sources:
     - name: zephyrproject
       url-base: https://github.com/zephyrproject-rtos
     - name: throwtheswitch
@@ -41,11 +39,18 @@ manifest:
       url-base: https://github.com/BabbleSim
     - name: bosch
       url-base: https://github.com/boschsensortec
+  defaults:
+    remote: ncs
+  # nRF Connect SDK GitHub organization.
+    # NCS repositories are hosted here.
+    # - name: ncs
+    #   url-base: https://github.com/nrfconnect
+    
 
   # If not otherwise specified, the projects below should be obtained
   # from the ncs remote.
-  defaults:
-    remote: ncs
+  # defaults:
+  #   remote: ncs
 
   group-filter: [-homekit, -nrf-802154, -dragoon, -find-my, -ant, -babblesim, -sidewalk, -bsec]
 
@@ -56,26 +61,27 @@ manifest:
   # https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/dm_code_base.html
   projects:
 
-    # The Zephyr RTOS fork in the NCS, along with the subset of its
-    # modules which NCS imports directly.
-    #
-    # https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/zephyr/introduction/index.html
-    # https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/zephyr/guides/modules.html
+  #   # The Zephyr RTOS fork in the NCS, along with the subset of its
+  #   # modules which NCS imports directly.
+  #   #
+  #   # https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/zephyr/introduction/index.html
+  #   # https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/zephyr/guides/modules.html
     - name: zephyr
       repo-path: sdk-zephyr
-      revision: c14ff95b07de84c5e6310230ae76024f951c6c86
+      remote: zephyr-sdk
+      revision: patch_with_kunoh_custom_smp_payloads
       import:
-        # In addition to the zephyr repository itself, NCS also
-        # imports the contents of zephyr/west.yml at the above
-        # revision. Only the projects explicitly named in the
-        # following allowlist are imported.
-        #
-        # Note that the zephyr west extensions (like 'build', 'flash',
-        # 'debug', etc.) are automatically provided by this import, so
-        # there's no need to add a redundant west-commands: key for
-        # the zephyr project.
-        #
-        # Please keep this list sorted alphabetically.
+      #   # In addition to the zephyr repository itself, NCS also
+      #   # imports the contents of zephyr/west.yml at the above
+      #   # revision. Only the projects explicitly named in the
+      #   # following allowlist are imported.
+      #   #
+      #   # Note that the zephyr west extensions (like 'build', 'flash',
+      #   # 'debug', etc.) are automatically provided by this import, so
+      #   # there's no need to add a redundant west-commands: key for
+      #   # the zephyr project.
+      #   #
+      #   # Please keep this list sorted alphabetically.
         name-allowlist:
           - TraceRecorderSource
           - canopennode
@@ -148,38 +154,12 @@ manifest:
       repo-path: sdk-trusted-firmware-m
       path: modules/tee/tf-m/trusted-firmware-m
       revision: v1.8.0-ncs1
-    - name: matter
-      repo-path: sdk-connectedhomeip
-      path: modules/lib/matter
-      revision: v2.5.0
-      submodules:
-        - name: nlio
-          path: third_party/nlio/repo
-        - name: nlassert
-          path: third_party/nlassert/repo
-        - name: nlunit-test
-          path: third_party/nlunit-test/repo
-        - name: pigweed
-          path: third_party/pigweed/repo
-      userdata:
-        ncs:
-          upstream-url: https://github.com/project-chip/connectedhomeip
-          upstream-sha: 8f66f4215bc0708efc8cc73bda80620e67d8955f
-          compare-by-default: false
-    - name: nrf-802154
-      repo-path: sdk-nrf-802154
-      path: nrf-802154
-      revision: v2.5.0
-      groups:
-        - nrf-802154
-    - name: dragoon
-      # Only for internal Nordic development
-      repo-path: dragoon.git
-      remote: dragoon
-      revision: c593baa9144d8d05304e9b92d7711ee8aa02503c
-      submodules: true
-      groups:
-        - dragoon
+    # - name: nrf-802154
+    #   repo-path: sdk-nrf-802154
+    #   path: nrf-802154
+    #   revision: v2.5.0
+    #   groups:
+    #     - nrf-802154
     - name: cjson
       repo-path: sdk-cjson
       path: modules/lib/cjson
@@ -189,22 +169,22 @@ manifest:
           upstream-url: https://github.com/DaveGamble/cJSON
           upstream-sha: d2735278ed1c2e4556f53a7a782063b31331dbf7
           compare-by-default: false
-    - name: sidewalk
-      repo-path: sdk-sidewalk
-      revision: 9a2e912e703625f11b73889678bfdf1792f3c266
-      submodules: true
-      groups:
-        - sidewalk
-    - name: homekit
-      repo-path: sdk-homekit
-      revision: v2.5.0
-      groups:
-        - homekit
-    - name: find-my
-      repo-path: sdk-find-my
-      revision: v2.5.0
-      groups:
-        - find-my
+    # - name: sidewalk
+    #   repo-path: sdk-sidewalk
+    #   revision: 9a2e912e703625f11b73889678bfdf1792f3c266
+    #   submodules: true
+    #   groups:
+    #     - sidewalk
+    # - name: homekit
+    #   repo-path: sdk-homekit
+    #   revision: v2.5.0
+    #   groups:
+    #     - homekit
+    # - name: find-my
+    #   repo-path: sdk-find-my
+    #   revision: v2.5.0
+    #   groups:
+    #     - find-my
     - name: azure-sdk-for-c
       repo-path: azure-sdk-for-c
       path: modules/lib/azure-sdk-for-c
@@ -243,32 +223,26 @@ manifest:
       path: modules/lib/memfault-firmware-sdk
       revision: 1.3.3
       remote: memfault
-    - name: ant
-      repo-path: sdk-ant
-      revision: c0cb28b9ea43009f6611386656881352d5382c36
-      remote: ant-nrfconnect
-      groups:
-        - ant
-    - name: bsim
-      repo-path: bsim_west
-      remote: babblesim
-      revision: 384a091445c57b44ac8cbd18ebd245b47c71db94
-      import:
-        path-prefix: tools
-    - name: bme68x
-      repo-path: Bosch-BME68x-Library
-      remote: bosch
-      path: modules/lib/bme68x
-      revision: v1.1.40407
-      groups:
-        - bsec
-    - name: bsec
-      repo-path: Bosch-BSEC2-Library
-      remote: bosch
-      path: modules/lib/bsec
-      revision: v1.5.2400
-      groups:
-        - bsec
+    # - name: bsim
+    #   repo-path: bsim_west
+    #   remote: babblesim
+    #   revision: 384a091445c57b44ac8cbd18ebd245b47c71db94
+    #   import:
+    #     path-prefix: tools
+    # - name: bme68x
+    #   repo-path: Bosch-BME68x-Library
+    #   remote: bosch
+    #   path: modules/lib/bme68x
+    #   revision: v1.1.40407
+    #   groups:
+    #     - bsec
+    # - name: bsec
+    #   repo-path: Bosch-BSEC2-Library
+    #   remote: bosch
+    #   path: modules/lib/bsec
+    #   revision: v1.5.2400
+    #   groups:
+    #     - bsec
 
 
   # West-related configuration for the nrf repository.
